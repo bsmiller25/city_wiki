@@ -6,6 +6,7 @@ import pandas as pd
 from bs4 import BeautifulSoup
 import sys
 import re
+import sqlalchemy as sql
 
 
 def new_city(city):
@@ -37,11 +38,6 @@ def new_city(city):
         mayor_loc = panel[0][panel[0].str.contains('Mayor')].index.tolist()[0]
     except:
         mayor_loc = 'NA'
-    # website
-    try:
-        web_loc = panel[0][panel[0].str.contains('Website')].index.tolist()[0]
-    except:
-        web_loc = 'NA'
         
     # if the location exists, get the field value
     if gtype_loc != 'NA':
@@ -52,20 +48,19 @@ def new_city(city):
         mayor = panel[1][mayor_loc]
     else:
         mayor = 'NA'
-    if web_loc != 'NA':
-        website = panel[1][web_loc]
-    else:
-        website = 'NA'
+    
+    # get the website
+    website = card.find_all('a')[-1]['href']
     
     # find a photo
     photos = str(html.find_all(attrs={'class': 'image'})[0])
     try:
         img = 'https://upload.wikimedia.org{}.png'.format(
-            re.findall('upload\.wikimedia\.org(.*?)\.png', photos)[0])
+            re.findall('upload\.wikimedia\.org(\S*?)\.png"', photos)[0])
     except:
         try:
-            img = 'https://upload.wikimedia.org{}.png'.format(
-                re.findall('upload\.wikimedia\.org(.*?)\.jpg', photos)[0])
+            img = 'https://upload.wikimedia.org{}.jpg'.format(
+                re.findall('upload\.wikimedia\.org(\S*?)\.jpg"', photos)[0])
         except:
             img = 'NA'
     
@@ -77,9 +72,11 @@ def new_city(city):
                           'img': img}, index=[0])
     
     return(tosql)
-
+ 
 
 if __name__ == '__main__':
-    
-    print(new_city(sys.argv[1]))
-    
+    engine = sql.create_engine('postgresql://localhost:5432/govex')
+    city = new_city(sys.argv[1])
+    print('Writing to sql')
+    city.to_sql('city_wiki', engine, if_exists='append', index=False)
+    print('Done')
