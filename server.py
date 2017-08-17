@@ -2,7 +2,7 @@ from flask import Flask, render_template, redirect, request, url_for
 import sqlalchemy as sql
 import pandas as pd
 from sql_connect import sql_connect
-import scraper
+from scraper import scrape_city
 app = Flask(__name__)
 
 
@@ -50,7 +50,7 @@ def creator():
     # data from post
     name = request.form.get('newname')
     # run the scraper on the input
-    #scraper.new_city(name)
+    scrape_city(name)
 
     # connect to sql backend
     engine = sql_connect()
