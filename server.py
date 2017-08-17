@@ -1,13 +1,33 @@
 from flask import Flask, render_template, redirect, request, url_for
 import sqlalchemy as sql
 import pandas as pd
+import scraper
 app = Flask(__name__)
+
+
+def sql_connect():
+    '''
+    When working on my virtual box, localhost can't be specified
+    When working on my remote server, localhost has to be specified
+    I don't know, this is my hacky work-around
+    '''
+    # connect to sql backend
+    engine = sql.create_engine('postgresql://localhost:5432/govex')
+    # test connection
+    try:
+        test = pd.read_sql_query('SELECT * FROM city_wiki LIMIT 1', engine)
+    except:
+        engine = sql.create_engine('postgresql:///govex')
+    return(engine)
 
 
 @app.route('/city/<int:cid>')
 def city_page(cid):
-    # connect to sql backend
-    engine = sql.create_engine('postgresql://localhost:5432/govex')
+    '''
+    The main page of this webtool. Displays city data scraped from wikipedia
+    '''
+    # connect to psql
+    engine = sql_connect()
     
     # get city ids
     query = "SELECT city FROM city_wiki;"
@@ -29,14 +49,46 @@ def city_page(cid):
                            cities=cities)
     
 
+@app.route('/new_city', methods=["GET", "POST"])
+def new_city():
+    '''
+    url endpoint for adding a new city
+    '''
+    return render_template('new_city.html',
+                           title='City-Wiki')
+
+@app.route('/creator', methods=["GET", "POST"])
+def creator():
+    '''
+    url endpoint for scraping new information from wikipedia
+    '''
+    # data from post
+    name = request.form.get('newname')
+    # run the scraper on the input
+    #scraper.new_city(name)
+
+    # connect to sql backend
+    engine = sql_connect()
+    # get city ids
+    query = "SELECT city FROM city_wiki;"
+    cities = pd.read_sql_query(query, engine)
+    cities['cid'] = list(range(len(cities)))
+    cid = cities['cid'][len(cities) - 1]
+    return redirect(url_for('city_page', cid=cid))
+
 @app.route("/redir", methods=["GET", "POST"])
 def redir():
+    '''
+    gateway for redirecting
+    '''
     # data from POST
     nc = request.form.get('new_cid')
     if nc == "":
         return redirect(request.referrer)
+    elif nc == "other":
+        return redirect(url_for('new_city'))
     # connect to sql backend
-    engine = sql.create_engine('postgresql://localhost:5432/govex')
+    engine = sql_connect()
     # get city ids
     query = "SELECT city FROM city_wiki;"
     cities = pd.read_sql_query(query, engine)

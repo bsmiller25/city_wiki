@@ -75,7 +75,7 @@ def new_city(city):
  
 
 if __name__ == '__main__':
-    engine = sql.create_engine('postgresql://localhost:5432/govex')
+    engine = sql.create_engine('postgresql:///govex')
     city = new_city(sys.argv[1])
     print('Writing to sql')
     city.to_sql('city_wiki', engine, if_exists='append', index=False)
