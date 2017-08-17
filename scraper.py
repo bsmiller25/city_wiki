@@ -6,8 +6,7 @@ import pandas as pd
 from bs4 import BeautifulSoup
 import sys
 import re
-import sqlalchemy as sql
-
+from sql_connect import sql_connect
 
 def new_city(city):
     '''
@@ -75,7 +74,7 @@ def new_city(city):
  
 
 if __name__ == '__main__':
-    engine = sql.create_engine('postgresql:///govex')
+    engine = sql_connect()
     city = new_city(sys.argv[1])
     print('Writing to sql')
     city.to_sql('city_wiki', engine, if_exists='append', index=False)
