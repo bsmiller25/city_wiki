@@ -1,10 +1,61 @@
 <!DOCTYPE html>
 <meta charset="UTF-8">
-<title> {{ title }} </title>
 
-<h1> {{ city }} </h1>
+<style type="text/css">
+  #selector {
+  text-align: center;
+  width:600px;
+  margin:0 auto;
+  }
+  #wrap {
+  width:600px;
+  margin: 0 auto;
+  }
+  #facts {
+  float:left;
+  width:300px;
+  line-height:40px
+  }
+  #pic {
+  float:right;
+  width:300px;
+  }
+</style>
+<html>
+  <body>
+    <title> {{ title }} </title>
+    
+    <div id="selector">
+      <h2>City Selector</h2>
+      <td>
+        <label> Select:</label>
+        <select id="ncity" width="300px" onchange="newCity()">
+          {% for x in cities %}
+          <option value="{{ x }}"{% if loop.first %} SELECTED{% endif %}>{{ x }}</option>
+          {% endfor %}
+        </select>
+      </td>
+      
+      <script>
+        function newCity() {
+        console.log(document.getElementById("ncity").value)
+        }
+      </script>
+      
+    </div>
+    <div id="wrap" >
+      <center><h1> {{ city }} </h1></center>
+      <div id="facts" >
+        Current Mayor: {{ mayor }} <br>
+        Government Structure: {{ gtype }} <br>
+        Official website: <a href={{ website }}> {{ website }} </a><br>
+      </div>
+      <div id="pic" >
+        <img src='{{ img }}' />
+      </div>
+    </div>
 
-<h3> Current Mayor: {{ mayor }} </h3>
+  </body>
+</html>
 
-<img src='{{ img }}' />
-
+    
