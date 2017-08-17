@@ -27,22 +27,22 @@
     
     <div id="selector">
       <h2>City Selector</h2>
-      <td>
-        <label> Select:</label>
-        <select id="ncity" width="300px" onchange="newCity()">
-          {% for x in cities %}
-          <option value="{{ x }}"{% if loop.first %} SELECTED{% endif %}>{{ x }}</option>
-          {% endfor %}
-        </select>
-      </td>
-      
-      <script>
-        function newCity() {
-        console.log(document.getElementById("ncity").value)
-        }
-      </script>
-      
+      <form method="POST" action="{{ url_for('redir') }}">
+        <div class="form-group">
+          <div class="input-group">
+            <span class="input-group-addon"></span>
+            <select name="new_cid" width="300px" method="post">
+              <option value="">Choose</option>
+              {% for x in cities %}
+              <option value="{{ x }}">{{ x }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <button type="submit"> Go </button>
+        </div>
+      </form>
     </div>
+    
     <div id="wrap" >
       <center><h1> {{ city }} </h1></center>
       <div id="facts" >
