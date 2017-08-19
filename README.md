@@ -2,9 +2,11 @@
 
 Create an online tool that takes a city name as an input and scrapes Wikipedia for information about their type of government, current mayor, website URL, and a photo; stores that information in a database; and displays that information as a profile.
 
+Hosted at: https://shrouded-mesa-37896.herokuapp.com/
+
 ## Programs
 
-### server.py
+### app.py
 
 Python script that uses flask to serve the front-end and handle the API requests. 
 
@@ -21,8 +23,6 @@ Provides functionality for choosing other cities to display.
 
 HTML code that allows the user to submit a city name that does not currently exist in the database. Passes the name back to server.py which runs scraper.py and redirects to the new page.
 
-### sql_connect.py
+### Other notes:
 
-Standarized function for creating Postgres connection string.
-
-Most of the development for the project was done on a remote Ubuntu server. Some, however was done on a train with poor WiFi connection so I used a virtual ubuntu box. I'm not sure what the difference between the setups is but the server needs the connection string to be Postgresql://localhost:5432/govex while the box needs Postgresql:///govex. I didn't dig too deeply into the issue because this fix was easy enough (and I guess makes the code more robust to possible postgres setups!)
+When setting up, run the manual scraper at the CLI at least once (example: python scraper.py "New York City") in order to populate the table with at least one record. 
