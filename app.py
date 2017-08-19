@@ -6,6 +6,10 @@ from scraper import scrape_city
 app = Flask(__name__)
 
 
+@app.route('/')
+def index():
+    return redirect(url_for('city_page', cid=0))
+
 @app.route('/city/<int:cid>')
 def city_page(cid):
     '''
