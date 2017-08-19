@@ -4,3 +4,4 @@ wikipedia==1.4.0
 Flask==0.12.2
 beautifulsoup4==4.6.0
 psycopg2==2.7.3
+lxml==3.7.3
