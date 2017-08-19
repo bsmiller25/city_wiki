@@ -1,7 +1,7 @@
 from flask import Flask, render_template, redirect, request, url_for
 import sqlalchemy as sql
 import pandas as pd
-from sql_connect import sql_connect
+import os
 from scraper import scrape_city
 app = Flask(__name__)
 
@@ -12,7 +12,7 @@ def city_page(cid):
     The main page of this webtool. Displays city data scraped from wikipedia
     '''
     # connect to psql
-    engine = sql_connect()
+    engine = sql.create_engine(os.getenv('DATABASE_URL'))
     
     # get city ids
     query = "SELECT city FROM city_wiki;"
@@ -51,9 +51,9 @@ def creator():
     name = request.form.get('newname')
     # run the scraper on the input
     scrape_city(name)
-
+    
     # connect to sql backend
-    engine = sql_connect()
+    engine = sql.create_engine(os.getenv('DATABASE_URL'))
     # get city ids
     query = "SELECT city FROM city_wiki;"
     cities = pd.read_sql_query(query, engine)
@@ -73,7 +73,7 @@ def redir():
     elif nc == "other":
         return redirect(url_for('new_city'))
     # connect to sql backend
-    engine = sql_connect()
+    engine = sql.create_engine(os.getenv('DATABASE_URL'))
     # get city ids
     query = "SELECT city FROM city_wiki;"
     cities = pd.read_sql_query(query, engine)

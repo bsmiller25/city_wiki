@@ -7,7 +7,8 @@ import pandas as pd
 from bs4 import BeautifulSoup
 import sys
 import re
-from sql_connect import sql_connect
+import os
+import sqlalchemy as sql
 
 def scrape_city(city):
     '''
@@ -69,7 +70,7 @@ def scrape_city(city):
                           'website': website,
                           'img': img}, index=[0])
     
-    engine = sql_connect()
+    engine = sql.create_engine(os.getenv('DATABASE_URL'))
     tosql.to_sql('city_wiki', engine, if_exists='append', index=False)
 
 
@@ -141,7 +142,7 @@ def scrape_city_manual(city):
  
 
 if __name__ == '__main__':
-    engine = sql_connect()
+    engine = sql.create_engine(os.getenv('DATABASE_URL'))
     city = scrape_city_manual(sys.argv[1])
     print('Writing to sql')
     city.to_sql('city_wiki', engine, if_exists='append', index=False)
