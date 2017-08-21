@@ -4,6 +4,45 @@ Create an online tool that takes a city name as an input and scrapes Wikipedia f
 
 Hosted at: https://shrouded-mesa-37896.herokuapp.com/
 
+Cities the scraper is known to work for:
+New York City  
+Washington DC\*   
+Baltimore  
+Chicago  
+San Fransisco  
+Miami  
+Boston  
+Los Angeles  
+Philadelphia  
+Houston  
+Denver\*  
+San Diego  
+Charlotte  
+
+
+\*Known Bugs:  
+Washington DC: Need to enter "Washington DC" -- "Washington" will refer to the state, doesn't return a government type (because it's not listed in the table)  
+Denver: doesn't return an image  
+Richmond: Need to enter "Richmond, VA", wrong website URL taken (this shouldn't be hard to fix but I haven't done it yet). 
+
+
+Before using either locally or hosted, run the manual scraper at the CLI at least once (example: python scraper.py "New York City") in order to populate the table with at least one record. 
+
+
+### To run locally:
+
+export DATABASE_URL='postgresql:///[username]' 
+where [username] is also a database in psql
+for me: export DATABASE_URL='postgresql:///ben'
+
+Then: 
+export FLASK_APP='app.py'
+flask run
+
+OR if hosting on heroku
+
+heroku local web
+
 ## Programs
 
 ### app.py
@@ -23,6 +62,4 @@ Provides functionality for choosing other cities to display.
 
 HTML code that allows the user to submit a city name that does not currently exist in the database. Passes the name back to server.py which runs scraper.py and redirects to the new page.
 
-### Other notes:
 
-When setting up, run the manual scraper at the CLI at least once (example: python scraper.py "New York City") in order to populate the table with at least one record. 
