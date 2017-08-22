@@ -18,12 +18,13 @@ Houston
 Denver\*  
 San Diego  
 Charlotte  
+Richmond
 
 
 \*Known Bugs:  
 Washington DC: Need to enter "Washington DC" -- "Washington" will refer to the state, doesn't return a government type (because it's not listed in the table)  
 Denver: doesn't return an image  
-Richmond: Need to enter "Richmond, VA", wrong website URL taken (this shouldn't be hard to fix but I haven't done it yet). 
+Richmond: Need to enter "Richmond, VA" 
 
 
 Before using either locally or hosted, run the manual scraper at the CLI at least once (example: python scraper.py "New York City") in order to populate the table with at least one record. 
