@@ -49,7 +49,7 @@ def scrape_city(city):
         mayor = 'NA'
     
     # get the website
-    website = card.find_all('a')[-1]['href']
+    website = card.find('th', text='Website').next_sibling.find('a')['href']
     
     # find a photo
     photos = str(html.find_all(attrs={'class': 'image'})[0])
