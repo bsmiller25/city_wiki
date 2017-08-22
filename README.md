@@ -31,8 +31,7 @@ Before using either locally or hosted, run the manual scraper at the CLI at leas
 
 ### To run locally:
 
-export DATABASE_URL='postgresql:///[username]' 
-where [username] is also a database in psql
+export DATABASE_URL='postgresql:///[database]'   
 for me: export DATABASE_URL='postgresql:///ben'
 
 Then: 
