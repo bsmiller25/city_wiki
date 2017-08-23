@@ -2,6 +2,10 @@
 
 Create an online tool that takes a city name as an input and scrapes Wikipedia for information about their type of government, current mayor, website URL, and a photo; stores that information in a database; and displays that information as a profile.
 
+## Approach  
+
+A Python scraper using the Wikipedia and BeautifulSoup modules collects and stores to a Postgres database selected information about a given city. The information is then passed from Flask to an HTML template via Jinja templating to make a profile for each city with a distinct URL. At the top of the templates is a dropdown menu which allows switching between already collected cities and the ability to request a new city. The "other" option redirects to a page that takes the value of a simple input form, runs the scraper for the value, and finally redirects to the new page.  
+
 Hosted at: https://shrouded-mesa-37896.herokuapp.com/
 
 Cities the scraper is known to work for:
